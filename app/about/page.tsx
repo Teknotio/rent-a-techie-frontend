@@ -14,21 +14,6 @@ export default function About() {
     color: 'var(--ink-2)',
   };
 
-  const founders = [
-    {
-      initials: 'VO',
-      name: 'Victoria Omordia',
-      role: 'CEO & CO-FOUNDER · BUSINESS + SALES',
-      bio: 'International business background. B2B sales operator. Owns commercial, fundraising, and founder community.',
-    },
-    {
-      initials: 'YAO',
-      name: 'Yaqoob A. Omotolani',
-      role: 'CTO & CO-FOUNDER · ENGINEERING',
-      bio: 'Full-stack AI & data consultant. Mentor at SpicedAcademy & Udacity. Sets the technical bar across the platform.',
-    },
-  ];
-
   const principles = [
     { key: 'noAgencies' },
     { key: 'noEquity' },
@@ -65,38 +50,6 @@ export default function About() {
             <p style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.5rem, 2.4vw, 2.5rem)', lineHeight: '1.15', color: 'var(--ink)' }}>
               {t('about.mission.text')}
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* The Founders Section */}
-      <section className="w-full">
-        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingBottom: '3rem' }}>
-          <div style={{ ...monoLabel, marginBottom: '1.5rem' }}>
-            THE FOUNDERS
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-            {founders.map((f) => (
-              <div key={f.initials} className="wf-box" style={{ padding: '1.75rem 2rem' }}>
-                <div className="flex items-start" style={{ gap: '1.25rem', marginBottom: '1rem' }}>
-                  <div className="flex-shrink-0 flex items-center justify-center rounded-full border-2 border-ink" style={{ width: '4rem', height: '4rem', backgroundColor: 'var(--accent-soft)', fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: '1.25rem', color: 'var(--ink)' }}>
-                    {f.initials}
-                  </div>
-                  <div className="flex flex-col" style={{ gap: '0.25rem' }}>
-                    <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.5rem, 1.8vw, 1.875rem)', lineHeight: '1.1' }}>
-                      {f.name}
-                    </h3>
-                    <div style={{ ...monoLabel, fontSize: 'clamp(0.75rem, 0.85vw, 0.9rem)', color: 'var(--ink-3)' }}>
-                      {f.role}
-                    </div>
-                  </div>
-                </div>
-                <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.0625rem, 1.2vw, 1.25rem)', lineHeight: '1.35', color: 'var(--ink-2)' }}>
-                  {f.bio}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

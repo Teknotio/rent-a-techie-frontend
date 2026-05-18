@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "howItWorks": "Wie es funktioniert",
+    "caseStudies": "Fallstudien",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "home": {
+    "hero": {
+      "title": "Starte das verdammte Produkt.",
+      "subtitle": "Wir vermieten geprüfte Senior-Ingenieure an nicht-technische Gründer — pro Sprint, pro Monat, pro Meilenstein.",
+      "cta": "30-minütiges Gespräch buchen →",
+      "ctaAlt": "ODER SCROLLEN · 9 VON 10 GRÜNDERN STARTEN NIE"
+    },
+    "gap": {
+      "title": "DIE LÜCKE, IN DREI ZAHLEN",
+      "stat1": {
+        "number": "€185K",
+        "text": "Kosten für einen einzigen Senior-Ingenieur (PayScale, EU)"
+      },
+      "stat2": {
+        "number": "9/10",
+        "text": "Gründer starten nie ihr erstes Produkt"
+      },
+      "stat3": {
+        "number": "0",
+        "text": "KI-Tools, die allein technische Due Diligence bestehen"
+      }
+    },
+    "howItWorks": {
+      "title": "WIE ES FUNKTIONIERT · VIER VERBEN",
+      "match": "Matchen.",
+      "matchTime": "72 STD",
+      "build": "Bauen.",
+      "buildTime": "PRODUKTION",
+      "mentor": "Mentoren.",
+      "mentorTime": "WÖCHENTLICH",
+      "launch": "Starten.",
+      "launchTime": "ÜBERGABE"
+    },
+    "shipped": {
+      "title": "BEREITS GESTARTET",
+      "trovara": {
+        "name": "Trovara",
+        "description": "Pre-Seed-Gründer hat in 6 Wochen ein Produktions-Matchmaking-Produkt gestartet. Auth, Zahlungen, Vektorsuche, alles.",
+        "link": "Pre-Read → Produktion in 6 Wochen: trovara.io ↗"
+      },
+      "tuneyverse": {
+        "name": "Tuneyverse",
+        "subtitle": "TUNEYVERSE.COM →",
+        "description": "Von unserer Belegschaft gebaut. Live im Markt."
+      },
+      "splexx": {
+        "name": "Splexx Labs",
+        "subtitle": "SPLEXXLABS.COM →",
+        "description": "Von unserer Belegschaft gebaut. Live im Markt."
+      }
+    },
+    "whyUs": {
+      "title": "WARUM WIR",
+      "heading": "Wir graduieren Gründer. Sie werden nicht eingesperrt.",
+      "benefit1": "100% IP & Code bleibt bei Ihnen",
+      "benefit2": ">50% unter EU-Fractional-CTO-Rate",
+      "benefit3": "~€100K in Infra & KI-Credits gestapelt",
+      "benefit4": "Keine langen Verträge. Keine Eigenkapitalfesseln."
+    }
+  },
+  "howItWorks": {
+    "pageTitle": "SEITE : WIE ES FUNKTIONIERT",
+    "hero": {
+      "title": "Von der Idee zur Produktion.",
+      "subtitle": "Ein Senior-Ingenieur. Vier Schritte. Keine langen Verträge, keine überteuerten Agenturen, keine Überraschungsrechnungen."
+    },
+    "steps": {
+      "match": {
+        "title": "Matchen.",
+        "time": "72 STUNDEN",
+        "description": "Teilen Sie Ihre Idee, Ihren Stack und Ihr Tempo in einem 30-minütigen Gespräch. Wir paaren Sie mit einem Senior-Ingenieur, der Stack, Zeitzone und Temperament passt."
+      },
+      "build": {
+        "title": "Bauen.",
+        "time": "JE 5-6",
+        "description": "Produktionsreifer Code, Infra, Sicherheit beim ersten Mal richtig eingerichtet. Wöchentliche Demos. Keine Agenturebene."
+      },
+      "mentor": {
+        "title": "Mentoren.",
+        "time": "JEDE WOCHE",
+        "description": "Arbeitssitzungen. Sie lernen das Warum hinter jeder Wahl — Auth, Zahlungen, Deploys, Observability."
+      },
+      "launch": {
+        "title": "Starten.",
+        "time": "ÜBERGABE",
+        "description": "Saubere Docs, getestete Codebasis, Einstellungsspezifikation für Ihren nächsten Dev. Sie graduieren bereit zu skalieren."
+      }
+    },
+    "engagement": {
+      "title": "IN JEDEM ENGAGEMENT ENTHALTEN",
+      "item1": {
+        "title": "Architektur-Review",
+        "description": "bevor Code geschrieben wird"
+      },
+      "item2": {
+        "title": "Stack & Infra-Setup",
+        "description": "Auth, Zahlungen, Deploy, Observability"
+      },
+      "item3": {
+        "title": "Wöchentliche Arbeitssitzungen",
+        "description": "Live-Pairing, nie nur async"
+      },
+      "item4": {
+        "title": "Mentorship-Arc",
+        "description": "Sie lernen, wie das System funktioniert"
+      },
+      "item5": {
+        "title": "Übergabepaket",
+        "description": "Docs + Einstellungsspezifikation für Ihren nächsten Dev"
+      }
+    },
+    "sprint": {
+      "title": "EIN TYPISCHER 6-WOCHEN-SPRINT",
+      "w1": "Match + Scope",
+      "w2": "Architektur",
+      "w3": "Core bauen",
+      "w4": "Features bauen",
+      "w5": "Polish & QA",
+      "w6": "Übergabe",
+      "footer": "Sie starten eine echte v1 in Produktion, keine Demo."
+    },
+    "cta": {
+      "title": "Bereit zu paaren? Buchen Sie das 30-minütige Gespräch.",
+      "button": "Buchen →"
+    }
+  },
+  "caseStudies": {
+    "pageTitle": "SEITE : FALLSTUDIEN",
+    "hero": {
+      "title": "Echte Gründer. Gestartete Produkte.",
+      "subtitle": "Wir zeigen keine Ingenieur-Gesichter — wir zeigen, was sie gestartet haben. Drei Live-Produkte, die mit unserer Belegschaft gebaut wurden."
+    },
+    "cta": {
+      "title": "Könnte Ihres der nächste Feldbericht sein?",
+      "button": "30-minütiges Gespräch buchen →"
+    }
+  },
+  "about": {
+    "pageTitle": "SEITE : ÜBER UNS",
+    "hero": {
+      "title": "Bauherren, die auf beiden Seiten der Lücke waren.",
+      "subtitle": "Wir haben Rent a Techie gegründet, weil wir immer wieder die gleiche Geschichte sahen — brillante Gründer, tote Produkte. Also haben wir die Brücke gebaut."
+    },
+    "mission": {
+      "title": "MISSION",
+      "text": "Jeden nicht-technischen Gründer mit einem Senior-Ingenieur paaren, den sie sich tatsächlich leisten können — und sie bereit zum Skalieren graduieren."
+    },
+    "howWeWork": {
+      "title": "WIE WIR ARBEITEN",
+      "noAgencies": {
+        "title": "Keine Agenturen",
+        "description": "Sie arbeiten direkt mit dem Ingenieur. Keine Account-Manager-Ebene."
+      },
+      "noEquity": {
+        "title": "Kein Eigenkapital",
+        "description": "Wir nehmen nie Eigenkapital. Sie graduieren und besitzen Ihr Unternehmen vollständig."
+      },
+      "noContracts": {
+        "title": "Keine langen Verträge",
+        "description": "Sprint zu Sprint. Jederzeit kündbar. Behalten Sie, was gebaut wurde."
+      },
+      "noFluff": {
+        "title": "Kein Blabla",
+        "description": "Produktionscode oder nichts. Demos sind nicht das Deliverable."
+      }
+    },
+    "cta": {
+      "title": "Wollen Sie fachsimpeln? Wir sind auch Gründer.",
+      "button": "30-minütiges Gespräch buchen →"
+    }
+  },
+  "contact": {
+    "pageTitle": "SEITE : KONTAKT",
+    "hero": {
+      "title": "Buchen Sie das Gespräch. Keine Verpflichtung, kein Pitch Deck erforderlich.",
+      "subtitle": "30-minütiges Intro. Wir hören zu, Sie scopen, und wir matchen Sie mit einem Senior-Ingenieur — normalerweise innerhalb von 72 Stunden."
+    },
+    "options": {
+      "title": "WÄHLEN SIE IHREN KANAL",
+      "email": {
+        "title": "E-Mail uns",
+        "link": "hello@rentatechie.io"
+      },
+      "calendly": {
+        "title": "Buchen Sie einen Slot",
+        "link": "calendly.com/rentatechie"
+      },
+      "whatsapp": {
+        "title": "WhatsApp",
+        "link": "+49 XXX XXX XXXX"
+      }
+    },
+    "widget": {
+      "title": "PLANUNGS-WIDGET · EINGEBETTET",
+      "subtitle": "Wählen Sie eine Zeit. Ohne Bedingungen.",
+      "selectDate": "DATUM WÄHLEN",
+      "selectTime": "ZEITSLOT WÄHLEN",
+      "yourName": "IHR NAME",
+      "yourEmail": "IHRE E-MAIL",
+      "button": "Mi · 13:00 bestätigen →"
+    }
+  },
+  "footer": {
+    "tagline": "Rent a Techie · Senior-Ingenieure pro Sprint.",
+    "legal": {
+      "privacy": "Datenschutz",
+      "terms": "AGB"
+    }
+  },
+  "common": {
+    "featured": "FEATURED",
+    "live": "LIVE",
+    "case": "FALL"
+  }
+}

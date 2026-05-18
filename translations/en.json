@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "howItWorks": "How It Works",
+    "caseStudies": "Case Studies",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "title": "Ship the damn product.",
+      "subtitle": "We rent vetted senior engineers to non-technical founders — by the sprint, by the month, by the milestone.",
+      "cta": "Book a 30-min call →",
+      "ctaAlt": "OR SCROLL · 9 IN 10 FOUNDERS NEVER SHIP"
+    },
+    "gap": {
+      "title": "THE GAP, IN THREE NUMBERS",
+      "stat1": {
+        "number": "€185K",
+        "text": "Cost of a single senior engineer (PayScale, EU)"
+      },
+      "stat2": {
+        "number": "9/10",
+        "text": "Founders never ship their first product"
+      },
+      "stat3": {
+        "number": "0",
+        "text": "AI tools that pass technical due diligence alone"
+      }
+    },
+    "howItWorks": {
+      "title": "HOW IT WORKS · FOUR VERBS",
+      "match": "Match.",
+      "matchTime": "72 HRS",
+      "build": "Build.",
+      "buildTime": "PRODUCTION",
+      "mentor": "Mentor.",
+      "mentorTime": "WEEKLY",
+      "launch": "Launch.",
+      "launchTime": "HAND-OFF"
+    },
+    "shipped": {
+      "title": "ALREADY SHIPPED",
+      "trovara": {
+        "name": "Trovara",
+        "description": "Pre-seed founder shipped a production matchmaking product in 6 weeks. Built auth, payments, vector search, the works.",
+        "link": "Pre-read → production in 6 weeks: trovara.io ↗"
+      },
+      "tuneyverse": {
+        "name": "Tuneyverse",
+        "subtitle": "TUNEYVERSE.COM →",
+        "description": "Built by our workforce. Live in market."
+      },
+      "splexx": {
+        "name": "Splexx Labs",
+        "subtitle": "SPLEXXLABS.COM →",
+        "description": "Built by our workforce. Live in market."
+      }
+    },
+    "whyUs": {
+      "title": "WHY US",
+      "heading": "We graduate founders. You don't get locked in.",
+      "benefit1": "100% IP & code stays with you",
+      "benefit2": ">50% below EU fractional CTO rate",
+      "benefit3": "~€100K in infra & AI credits stacked",
+      "benefit4": "No long contracts. No equity strings."
+    }
+  },
+  "howItWorks": {
+    "pageTitle": "PAGE : HOW IT WORKS",
+    "hero": {
+      "title": "From idea to production.",
+      "subtitle": "One senior engineer. Four steps. No long contracts, no overpriced agencies, no surprise bills."
+    },
+    "steps": {
+      "match": {
+        "title": "Match.",
+        "time": "72 HOURS",
+        "description": "Share your idea, stack and pace in a 30-min call. We pair you with a senior engineer who fits stack, time-zone, and temperament."
+      },
+      "build": {
+        "title": "Build.",
+        "time": "EACH 5-6",
+        "description": "Production-grade code, infra, security set up correctly the first time. Weekly demos. No agency layer."
+      },
+      "mentor": {
+        "title": "Mentor.",
+        "time": "EVERY WEEK",
+        "description": "Working sessions. You learn the why behind every choice — auth, payments, deploys, observability."
+      },
+      "launch": {
+        "title": "Launch.",
+        "time": "HAND-OFF",
+        "description": "Clean docs, tested codebase, hiring spec for your next dev. You graduate ready to scale."
+      }
+    },
+    "engagement": {
+      "title": "WHAT'S IN EVERY ENGAGEMENT",
+      "item1": {
+        "title": "Architecture review",
+        "description": "before any code is written"
+      },
+      "item2": {
+        "title": "Stack & infra setup",
+        "description": "auth, payments, deploy, observability"
+      },
+      "item3": {
+        "title": "Weekly working sessions",
+        "description": "live pairing, never async-only"
+      },
+      "item4": {
+        "title": "Mentorship arc",
+        "description": "you learn how the system works"
+      },
+      "item5": {
+        "title": "Hand-off package",
+        "description": "docs + hiring spec for your next dev"
+      }
+    },
+    "sprint": {
+      "title": "A TYPICAL 6-WEEK SPRINT",
+      "w1": "Match + scope",
+      "w2": "Architecture",
+      "w3": "Build core",
+      "w4": "Build features",
+      "w5": "Polish & QA",
+      "w6": "Hand-off",
+      "footer": "You ship a real v1 in production, not a demo."
+    },
+    "cta": {
+      "title": "Ready to pair? Book the 30-min call.",
+      "button": "Book →"
+    }
+  },
+  "caseStudies": {
+    "pageTitle": "PAGE : CASE STUDIES",
+    "hero": {
+      "title": "Real founders. Shipped products.",
+      "subtitle": "We don't show engineers' faces — we show what they shipped. Three live products built with our workforce."
+    },
+    "cta": {
+      "title": "Could yours be the next field report?",
+      "button": "Book a 30-min call →"
+    }
+  },
+  "about": {
+    "pageTitle": "PAGE : ABOUT",
+    "hero": {
+      "title": "Builders who've been on both sides of the gap.",
+      "subtitle": "We started Rent a Techie because we kept watching the same story play out — brilliant founders, dead products. So we built the bridge."
+    },
+    "mission": {
+      "title": "MISSION",
+      "text": "Pair every non-technical founder with a senior engineer they can actually afford — and graduate them ready to scale."
+    },
+    "howWeWork": {
+      "title": "HOW WE WORK",
+      "noAgencies": {
+        "title": "No agencies",
+        "description": "You work directly with the engineer. No account manager layer."
+      },
+      "noEquity": {
+        "title": "No equity",
+        "description": "We never take equity. You graduate fully owning your company."
+      },
+      "noContracts": {
+        "title": "No long contracts",
+        "description": "Sprint to sprint. Cancel any time. Keep what was built."
+      },
+      "noFluff": {
+        "title": "No fluff",
+        "description": "Production code or nothing. Demos are not the deliverable."
+      }
+    },
+    "cta": {
+      "title": "Want to talk shop? We're founders, too.",
+      "button": "Book a 30-min call →"
+    }
+  },
+  "contact": {
+    "pageTitle": "PAGE : CONTACT",
+    "hero": {
+      "title": "Book the call. No commitment, no pitch deck needed.",
+      "subtitle": "30-minute intro. We listen, you scope, and we match you with a senior engineer — usually within 72 hours."
+    },
+    "options": {
+      "title": "PICK YOUR CHANNEL",
+      "email": {
+        "title": "Email us",
+        "link": "hello@rentatechie.io"
+      },
+      "calendly": {
+        "title": "Book a slot",
+        "link": "calendly.com/rentatechie"
+      },
+      "whatsapp": {
+        "title": "WhatsApp",
+        "link": "+49 XXX XXX XXXX"
+      }
+    },
+    "widget": {
+      "title": "SCHEDULING WIDGET · EMBED",
+      "subtitle": "Pick a time. No strings attached.",
+      "selectDate": "SELECT DATE",
+      "selectTime": "SELECT TIME SLOT",
+      "yourName": "YOUR NAME",
+      "yourEmail": "YOUR EMAIL",
+      "button": "Confirm Wed · 13:00 →"
+    }
+  },
+  "footer": {
+    "tagline": "Rent a Techie · Senior engineers by the sprint.",
+    "legal": {
+      "privacy": "Privacy",
+      "terms": "Terms"
+    }
+  },
+  "common": {
+    "featured": "FEATURED",
+    "live": "LIVE",
+    "case": "CASE"
+  }
+}

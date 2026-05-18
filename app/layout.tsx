@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import AccentSwitcher from "@/components/AccentSwitcher";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
@@ -29,7 +28,6 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <AccentSwitcher />
         </LanguageProvider>
       </body>
     </html>

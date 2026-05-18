@@ -9,49 +9,58 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full">
       {/* Dark Hero Section */}
-      <section className="w-full min-h-screen flex flex-col justify-between relative overflow-hidden bg-ink text-paper">
-        <div className="w-full flex-1 flex items-center">
-          <div className="max-w-7xl mx-auto w-full px-6 md:px-14 py-12 md:py-20">
-            <div className="flex flex-col md:flex-row items-start justify-between mb-8 md:mb-16 gap-6">
-              <h1 className="text-left" style={{ fontSize: 'clamp(2.5rem, 10vw, 10rem)', lineHeight: '0.9', fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                Ship
-                <br />
-                the <span className="text-accent">damn</span>
-                <br />
-                product.
-              </h1>
+      <section className="w-full min-h-[800px] md:min-h-[1080px] flex flex-col relative overflow-hidden bg-ink text-paper">
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-14 pt-10 md:pt-14 pb-8 md:pb-12 flex-1 flex flex-col">
 
-              <div className="flex-shrink-0">
-                <div className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full border-2 border-paper flex items-center justify-center">
-                  <span className="text-3xl md:text-4xl lg:text-5xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>RT</span>
-                </div>
+          {/* Middle group: HERO label + headline, vertically centered. RT circle stays in this row too */}
+          <div className="flex-1 flex flex-col justify-center">
+            {/* Top Row: small RT circle pinned to the right */}
+            <div className="flex items-center justify-end mb-6 md:mb-10">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-paper flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl md:text-3xl text-paper" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>RT</span>
               </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-16 mb-8 md:mb-12">
-              <div className="flex-1 max-w-2xl">
-                <p className="text-base md:text-lg lg:text-xl text-paper" style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontWeight: 400 }}>
-                  {t('home.hero.subtitle')}
-                </p>
-              </div>
+            {/* Big Headline */}
+            <h1 className="text-left" style={{ fontSize: 'clamp(3rem, 12vw, 11rem)', lineHeight: '1.15', fontFamily: 'Caveat, cursive', fontWeight: 700, paddingBottom: '0.15em' }}>
+              Ship
+              <br />
+              the <span className="text-accent">damn</span>
+              <br />
+              product.
+            </h1>
 
-              <div className="flex flex-col items-start lg:items-end gap-3 w-full lg:w-auto">
-                <Link href="/contact" className="wf-btn text-base md:text-xl px-6 md:px-8 py-3 md:py-4 w-full lg:w-auto text-center">
+            {/* Subtitle directly under the headline */}
+            <p className="text-xl md:text-2xl lg:text-3xl text-paper max-w-3xl" style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontWeight: 400, marginTop: '5rem' }}>
+              {t('home.hero.subtitle')}
+            </p>
+          </div>
+
+          {/* Bottom group: CTA + italic note pinned at the very bottom */}
+          <div>
+            <div className="flex justify-end">
+              <div className="flex flex-col items-start lg:items-end gap-2 w-full lg:w-auto">
+                <Link href="/contact" className="wf-btn text-base md:text-lg px-5 md:px-6 py-2.5 md:py-3 w-full lg:w-auto text-center">
                   {t('home.hero.cta')}
                 </Link>
-                <p className="wf-mono text-xs text-ink-3">
-                  {t('home.hero.ctaAlt')}
-                </p>
               </div>
             </div>
+
+            {/* Italic accent note - rotated -45deg (slants up to the right) */}
+            <p className="text-accent text-lg md:text-xl lg:text-2xl mt-4 md:mt-5 inline-block origin-bottom-left" style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontWeight: 400, transform: 'rotate(-2deg)' }}>
+              ↳ type does the heavy lifting — no hero image
+            </p>
           </div>
         </div>
 
-        {/* Horizontal Scrolling Text - At Bottom */}
-        <div className="w-full border-t border-b border-ink bg-paper py-3">
-          <div className="max-w-7xl mx-auto">
-            <div className="wf-mono text-xs text-ink flex gap-4 md:gap-6 whitespace-nowrap overflow-x-auto">
-              <span>· IDEA ON A NAPKIN</span>
+      </section>
+
+      {/* Horizontal scrolling text strip — between hero and gap section */}
+      <div className="w-full" style={{ marginTop: '20px' }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-14">
+          <div className="border-t border-b border-ink bg-paper" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
+            <div className="text-ink flex justify-between gap-4 md:gap-6 whitespace-nowrap overflow-x-auto" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(0.875rem, 1.2vw, 1.125rem)' }}>
+              <span>IDEA ON A NAPKIN</span>
               <span>· CURSOR DEMO</span>
               <span>· STUCK AT V0.5</span>
               <span>· NO CO-FOUNDER</span>
@@ -60,42 +69,42 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* The Gap Section */}
-      <section className="w-full">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-12 md:py-20">
-          <div className="wf-mono text-xs md:text-sm mb-6 md:mb-8">
+      <section className="w-full" style={{ backgroundColor: '#fbf8f1' }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingTop: '4rem', paddingBottom: '6rem' }}>
+          <div className="text-ink-2" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(1rem, 1.1vw, 1.2rem)', marginBottom: '1.5rem' }}>
             {t('home.gap.title')}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-            <div className="wf-box p-6 md:p-8">
-              <div className="wf-mono text-xs md:text-sm mb-2">01</div>
-              <div className="text-4xl md:text-5xl lg:text-6xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            <div className="wf-box p-6 md:p-8 min-h-[180px] md:min-h-[200px] flex flex-col">
+              <div className="text-ink-2" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(0.875rem, 1vw, 1rem)', marginBottom: '1.5rem' }}>01</div>
+              <div style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(3rem, 5vw, 5rem)', lineHeight: '1', marginBottom: '1.5rem' }}>
                 {t('home.gap.stat1.number')}
               </div>
-              <p className="wf-body text-sm">
+              <p className="text-ink-2" style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.25rem, 1.6vw, 1.75rem)', lineHeight: '1.3' }}>
                 {t('home.gap.stat1.text')}
               </p>
             </div>
 
-            <div className="wf-box p-6 md:p-8">
-              <div className="wf-mono text-xs md:text-sm mb-2">02</div>
-              <div className="text-4xl md:text-5xl lg:text-6xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+            <div className="wf-box p-6 md:p-8 min-h-[180px] md:min-h-[200px] flex flex-col">
+              <div className="text-ink-2" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(0.875rem, 1vw, 1rem)', marginBottom: '1.5rem' }}>02</div>
+              <div style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(3rem, 5vw, 5rem)', lineHeight: '1', marginBottom: '1.5rem' }}>
                 {t('home.gap.stat2.number')}
               </div>
-              <p className="wf-body text-sm">
+              <p className="text-ink-2" style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.25rem, 1.6vw, 1.75rem)', lineHeight: '1.3' }}>
                 {t('home.gap.stat2.text')}
               </p>
             </div>
 
-            <div className="wf-box p-6 md:p-8">
-              <div className="wf-mono text-xs md:text-sm mb-2">03</div>
-              <div className="text-4xl md:text-5xl lg:text-6xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+            <div className="wf-box p-6 md:p-8 min-h-[180px] md:min-h-[200px] flex flex-col">
+              <div className="text-ink-2" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(0.875rem, 1vw, 1rem)', marginBottom: '1.5rem' }}>03</div>
+              <div style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(3rem, 5vw, 5rem)', lineHeight: '1', marginBottom: '1.5rem' }}>
                 {t('home.gap.stat3.number')}
               </div>
-              <p className="wf-body text-sm">
+              <p className="text-ink-2" style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.25rem, 1.6vw, 1.75rem)', lineHeight: '1.3' }}>
                 {t('home.gap.stat3.text')}
               </p>
             </div>
@@ -104,9 +113,9 @@ export default function Home() {
       </section>
 
       {/* How It Works - Four Verbs */}
-      <section className="w-full bg-paper-2">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-12 md:py-20">
-          <div className="wf-mono text-xs md:text-sm mb-6 md:mb-8">
+      <section className="w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingTop: '4rem', paddingBottom: '8rem' }}>
+          <div className="text-ink-2" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(1rem, 1.1vw, 1.2rem)', marginBottom: '1.5rem' }}>
             {t('home.howItWorks.title')}
           </div>
 
@@ -116,15 +125,15 @@ export default function Home() {
               <h3 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
                 {t('home.howItWorks.match')}
               </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent">{t('home.howItWorks.matchTime')}</div>
+              <div className="wf-mono text-xs md:text-sm" style={{ color: '#e66a3a' }}>{t('home.howItWorks.matchTime')}</div>
             </div>
 
-            <div className="wf-box p-6 md:p-8">
+            <div className="wf-box p-6 md:p-8" style={{ backgroundColor: 'var(--paper-2)' }}>
               <div className="wf-mono text-xs md:text-sm mb-2">02</div>
               <h3 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
                 {t('home.howItWorks.build')}
               </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent">{t('home.howItWorks.buildTime')}</div>
+              <div className="wf-mono text-xs md:text-sm" style={{ color: '#e66a3a' }}>{t('home.howItWorks.buildTime')}</div>
             </div>
 
             <div className="wf-box p-6 md:p-8">
@@ -132,15 +141,15 @@ export default function Home() {
               <h3 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
                 {t('home.howItWorks.mentor')}
               </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent">{t('home.howItWorks.mentorTime')}</div>
+              <div className="wf-mono text-xs md:text-sm" style={{ color: '#e66a3a' }}>{t('home.howItWorks.mentorTime')}</div>
             </div>
 
-            <div className="wf-box p-6 md:p-8">
+            <div className="wf-box p-6 md:p-8" style={{ backgroundColor: 'var(--paper-2)' }}>
               <div className="wf-mono text-xs md:text-sm mb-2">04</div>
               <h3 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
                 {t('home.howItWorks.launch')}
               </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent">{t('home.howItWorks.launchTime')}</div>
+              <div className="wf-mono text-xs md:text-sm" style={{ color: '#e66a3a' }}>{t('home.howItWorks.launchTime')}</div>
             </div>
           </div>
         </div>
@@ -149,126 +158,122 @@ export default function Home() {
       {/* Already Shipped */}
       <section className="w-full">
         <div className="max-w-7xl mx-auto px-6 md:px-14 py-12 md:py-20">
-          <div className="wf-mono text-xs md:text-sm mb-6 md:mb-8">
+          <div className="text-ink-2" style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(1rem, 1.1vw, 1.2rem)', marginBottom: '1.5rem' }}>
             {t('home.shipped.title')}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-            {/* Featured - Trovara */}
-            <div className="wf-box p-0 overflow-hidden">
-              <div className="relative h-64 md:h-80 overflow-hidden">
+            {/* Featured - Trovara (image top, content bottom) */}
+            <a href="https://trovara.io" target="_blank" rel="noopener noreferrer" className="wf-box overflow-hidden flex flex-col transition-transform hover:-translate-y-1" style={{ padding: 0, textDecoration: 'none', color: 'inherit' }}>
+              <div className="relative w-full overflow-hidden" style={{ height: 'clamp(300px, 35vw, 500px)' }}>
                 <Image
-                  src="/trovara.png"
+                  src="https://s0.wp.com/mshots/v1/https%3A%2F%2Ftrovara.io?w=1200&h=700"
                   alt="Trovara - Real estate property search platform"
                   fill
-                  className="object-cover object-center"
+                  unoptimized
+                  className="object-cover object-top"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
-              <div className="p-4 md:p-6">
-                <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-3">
-                  <span className="wf-pill wf-pill-accent text-xs md:text-sm">{t('common.featured')}</span>
-                  <span className="wf-pill wf-pill-accent text-xs md:text-sm">{t('common.live')}</span>
+              <div style={{ padding: '1.5rem 1.75rem' }}>
+                <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.06em', textTransform: 'uppercase', fontSize: '0.75rem', color: 'var(--ink-2)', marginBottom: '0.75rem' }}>
+                  {t('common.featured')} · {t('common.live')}
                 </div>
-                <h3 className="text-2xl md:text-3xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+                <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', marginBottom: '0.5rem' }}>
                   {t('home.shipped.trovara.name')}
                 </h3>
-                <p className="wf-body text-sm mb-3">
-                  {t('home.shipped.trovara.description')}
-                </p>
-                <Link href="https://trovara.io" className="wf-mono text-xs md:text-sm text-accent break-words">
+                <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1rem, 1.2vw, 1.25rem)', lineHeight: '1.3', color: 'var(--ink-2)' }}>
                   {t('home.shipped.trovara.link')}
-                </Link>
+                </p>
               </div>
-            </div>
+            </a>
 
-            {/* Tuneyverse and Splexx Labs */}
-            <div className="flex flex-col gap-6 md:gap-8">
-              <div className="wf-box p-0 overflow-hidden">
-                <div className="relative h-32 md:h-36 overflow-hidden">
-                  <div className="absolute inset-0 w-[130%] h-full">
-                    <Image
-                      src="/tuneyverse.png"
-                      alt="Tuneyverse - Creative platform for modern artists"
-                      fill
-                      className="object-cover object-left"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
+            {/* Tuneyverse and Splexx Labs (horizontal: image left, content right) */}
+            <div className="flex flex-col gap-6 md:gap-8 h-full">
+              <a href="https://www.tuneyverse.com" target="_blank" rel="noopener noreferrer" className="wf-box overflow-hidden flex flex-row flex-1 transition-transform hover:-translate-y-1" style={{ padding: 0, textDecoration: 'none', color: 'inherit' }}>
+                <div className="relative flex-shrink-0 overflow-hidden" style={{ width: 'clamp(180px, 70%, 320px)' }}>
+                  <Image
+                    src="/tuneyverse.png"
+                    alt="Tuneyverse - Creative platform for modern artists"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 30vw, 25vw"
+                  />
                 </div>
-                <div className="p-4 md:p-6">
-                  <h3 className="text-xl md:text-2xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+                <div className="flex-1" style={{ padding: '1.25rem 1.5rem' }}>
+                  <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)', marginBottom: '0.25rem' }}>
                     {t('home.shipped.tuneyverse.name')}
                   </h3>
-                  <p className="wf-body text-sm mb-2">
+                  <p style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.7rem', color: 'var(--ink-2)', marginBottom: '0.5rem' }}>
                     {t('home.shipped.tuneyverse.subtitle')}
                   </p>
-                  <p className="wf-body text-sm italic">
+                  <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(0.95rem, 1.1vw, 1.125rem)', lineHeight: '1.3', color: 'var(--ink-2)' }}>
                     {t('home.shipped.tuneyverse.description')}
                   </p>
                 </div>
-              </div>
+              </a>
 
-              <div className="wf-box p-0 overflow-hidden">
-                <div className="relative h-32 md:h-36 overflow-hidden">
-                  <div className="absolute inset-0 w-[130%] h-full">
-                    <Image
-                      src="/splexxlabs.png"
-                      alt="Splexx Labs - Crypto & Blockchain Intelligence"
-                      fill
-                      className="object-cover object-left"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
+              <a href="https://www.splexxlabs.com" target="_blank" rel="noopener noreferrer" className="wf-box overflow-hidden flex flex-row flex-1 transition-transform hover:-translate-y-1" style={{ padding: 0, textDecoration: 'none', color: 'inherit' }}>
+                <div className="relative flex-shrink-0 overflow-hidden" style={{ width: 'clamp(180px, 70%, 320px)' }}>
+                  <Image
+                    src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fwww.splexxlabs.com?w=800&h=600"
+                    alt="Splexx Labs - Crypto & Blockchain Intelligence"
+                    fill
+                    unoptimized
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 30vw, 25vw"
+                  />
                 </div>
-                <div className="p-4 md:p-6">
-                  <h3 className="text-xl md:text-2xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+                <div className="flex-1" style={{ padding: '1.25rem 1.5rem' }}>
+                  <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)', marginBottom: '0.25rem' }}>
                     {t('home.shipped.splexx.name')}
                   </h3>
-                  <p className="wf-body text-sm mb-2">
+                  <p style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.7rem', color: 'var(--ink-2)', marginBottom: '0.5rem' }}>
                     {t('home.shipped.splexx.subtitle')}
                   </p>
-                  <p className="wf-body text-sm italic">
+                  <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(0.95rem, 1.1vw, 1.125rem)', lineHeight: '1.3', color: 'var(--ink-2)' }}>
                     {t('home.shipped.splexx.description')}
                   </p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Us - Dark Footer */}
-      <section className="w-full bg-ink text-paper">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-12 md:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-start lg:items-center">
+      {/* Why Us - Dark Footer (contained to content width) */}
+      <section className="w-full" style={{ marginTop: '6rem' }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-14">
+          <div className="bg-ink text-paper rounded-md" style={{ paddingTop: '4rem', paddingBottom: '4rem', paddingLeft: '3rem', paddingRight: '3rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-start lg:items-center">
             <div>
-              <div className="wf-mono text-xs md:text-sm mb-4 md:mb-6">
+              <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.02em', textTransform: 'uppercase', fontSize: 'clamp(1rem, 1.2vw, 1.25rem)', color: 'var(--paper)', marginBottom: '1.5rem' }}>
                 {t('home.whyUs.title')}
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl mb-6" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+              <h2 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: '1.1', color: 'var(--paper)' }}>
                 {t('home.whyUs.heading')}
               </h2>
             </div>
 
-            <div className="space-y-3 md:space-y-4">
-              <div className="flex items-start gap-2 md:gap-3">
-                <span className="text-paper text-sm md:text-base">→</span>
-                <p className="text-paper text-sm md:text-base" style={{ fontFamily: 'Caveat, cursive' }}>{t('home.whyUs.benefit1')}</p>
+            <div className="space-y-4 md:space-y-5" style={{ borderLeft: '1px solid var(--paper)', paddingLeft: '3rem' }}>
+              <div className="flex items-start gap-3 md:gap-4">
+                <span style={{ color: 'var(--paper)', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)' }}>→</span>
+                <p style={{ color: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)', lineHeight: '1.3' }}>{t('home.whyUs.benefit1')}</p>
               </div>
-              <div className="flex items-start gap-2 md:gap-3">
-                <span className="text-paper text-sm md:text-base">→</span>
-                <p className="text-paper text-sm md:text-base" style={{ fontFamily: 'Caveat, cursive' }}>{t('home.whyUs.benefit2')}</p>
+              <div className="flex items-start gap-3 md:gap-4">
+                <span style={{ color: 'var(--paper)', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)' }}>→</span>
+                <p style={{ color: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)', lineHeight: '1.3' }}>{t('home.whyUs.benefit2')}</p>
               </div>
-              <div className="flex items-start gap-2 md:gap-3">
-                <span className="text-paper text-sm md:text-base">→</span>
-                <p className="text-paper text-sm md:text-base" style={{ fontFamily: 'Caveat, cursive' }}>{t('home.whyUs.benefit3')}</p>
+              <div className="flex items-start gap-3 md:gap-4">
+                <span style={{ color: 'var(--paper)', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)' }}>→</span>
+                <p style={{ color: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)', lineHeight: '1.3' }}>{t('home.whyUs.benefit3')}</p>
               </div>
-              <div className="flex items-start gap-2 md:gap-3">
-                <span className="text-paper text-sm md:text-base">→</span>
-                <p className="text-paper text-sm md:text-base" style={{ fontFamily: 'Caveat, cursive' }}>{t('home.whyUs.benefit4')}</p>
+              <div className="flex items-start gap-3 md:gap-4">
+                <span style={{ color: 'var(--paper)', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)' }}>→</span>
+                <p style={{ color: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: 'clamp(1.25rem, 1.8vw, 1.75rem)', lineHeight: '1.3' }}>{t('home.whyUs.benefit4')}</p>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </section>

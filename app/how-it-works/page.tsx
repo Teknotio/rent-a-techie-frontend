@@ -6,183 +6,107 @@ import { useLanguage } from '@/contexts/LanguageContext';
 export default function HowItWorks() {
   const { t } = useLanguage();
 
+  const monoLabel: React.CSSProperties = {
+    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+    color: 'var(--ink-2)',
+  };
+
   return (
     <div className="flex flex-col w-full">
       {/* Hero Section */}
       <section className="w-full">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-24 md:py-32 lg:py-40">
-          <div className="wf-mono text-xs md:text-sm mb-4 md:mb-6">
-            {t('howItWorks.pageTitle')}
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+          <div style={{ ...monoLabel, marginBottom: '1.5rem' }}>
+            HOW IT WORKS
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl mb-4 md:mb-6" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(3rem, 7vw, 6rem)', lineHeight: '1.05', marginBottom: '1.5rem' }}>
             {t('howItWorks.hero.title')}
           </h1>
 
-          <p className="wf-body text-lg md:text-xl max-w-2xl">
+          <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.125rem, 1.4vw, 1.5rem)', lineHeight: '1.35', color: 'var(--ink-2)', maxWidth: '48rem' }}>
             {t('howItWorks.hero.subtitle')}
           </p>
         </div>
       </section>
 
-      {/* Four Steps Section */}
-      <section className="w-full border-t border-b border-ink relative mt-24 md:mt-32 lg:mt-40">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-24 md:py-32 lg:py-40">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-0">
-            {/* Step 1 */}
-            <div className="px-0 md:px-6 lg:px-8 md:border-r md:border-dotted md:border-ink-3">
-              <div className="wf-mono text-xs md:text-sm mb-3 md:mb-4">01</div>
-              <h3 className="text-4xl md:text-5xl mb-3 md:mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.steps.match.title')}
-              </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent mb-4 md:mb-6">{t('howItWorks.steps.match.time')}</div>
-              <p className="wf-body text-sm md:text-base">
-                {t('howItWorks.steps.match.description')}
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="px-0 md:px-6 lg:px-8 md:border-r md:border-dotted md:border-ink-3">
-              <div className="wf-mono text-xs md:text-sm mb-3 md:mb-4">02</div>
-              <h3 className="text-4xl md:text-5xl mb-3 md:mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.steps.build.title')}
-              </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent mb-4 md:mb-6">{t('howItWorks.steps.build.time')}</div>
-              <p className="wf-body text-sm md:text-base">
-                {t('howItWorks.steps.build.description')}
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="px-0 md:px-6 lg:px-8 md:border-r md:border-dotted md:border-ink-3">
-              <div className="wf-mono text-xs md:text-sm mb-3 md:mb-4">03</div>
-              <h3 className="text-4xl md:text-5xl mb-3 md:mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.steps.mentor.title')}
-              </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent mb-4 md:mb-6">{t('howItWorks.steps.mentor.time')}</div>
-              <p className="wf-body text-sm md:text-base">
-                {t('howItWorks.steps.mentor.description')}
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="px-0 md:px-6 lg:px-8">
-              <div className="wf-mono text-xs md:text-sm mb-3 md:mb-4">04</div>
-              <h3 className="text-4xl md:text-5xl mb-3 md:mb-4" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.steps.launch.title')}
-              </h3>
-              <div className="wf-mono text-xs md:text-sm text-accent mb-4 md:mb-6">{t('howItWorks.steps.launch.time')}</div>
-              <p className="wf-body text-sm md:text-base">
-                {t('howItWorks.steps.launch.description')}
-              </p>
-            </div>
+      {/* Four Steps Section — strip contained to content width */}
+      <section className="w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-14">
+          <div className="border-t border-b border-ink">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-0 relative">
+            {[
+              { num: '01', titleKey: 'match', timeKey: 'match', last: false },
+              { num: '02', titleKey: 'build', timeKey: 'build', last: false },
+              { num: '03', titleKey: 'mentor', timeKey: 'mentor', last: false },
+              { num: '04', titleKey: 'launch', timeKey: 'launch', last: true },
+            ].map(({ num, titleKey, timeKey, last }) => (
+              <div key={num} className={!last ? 'md:border-r md:border-dotted md:border-ink-3' : ''} style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '2.5rem', paddingBottom: '2.5rem' }}>
+                <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.08em', fontSize: 'clamp(1rem, 1.1vw, 1.25rem)', color: 'var(--accent)', marginBottom: '0.75rem' }}>
+                  {num}
+                </div>
+                <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(2.5rem, 4.5vw, 4rem)', lineHeight: '1', marginBottom: '1rem' }}>
+                  {t(`howItWorks.steps.${titleKey}.title`)}
+                </h3>
+                <div style={{ ...monoLabel, fontSize: 'clamp(0.875rem, 1vw, 1.125rem)', color: 'var(--ink-2)', marginBottom: '1.25rem' }}>
+                  {t(`howItWorks.steps.${timeKey}.time`)}
+                </div>
+                <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.25rem, 1.5vw, 1.625rem)', lineHeight: '1.35', color: 'var(--ink-2)' }}>
+                  {t(`howItWorks.steps.${titleKey}.description`)}
+                </p>
+              </div>
+            ))}
+          </div>
           </div>
         </div>
       </section>
 
       {/* What's in every engagement */}
-      <section className="w-full mt-24 md:mt-32 lg:mt-40">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-24 md:py-32 lg:py-40">
-          <div className="wf-mono text-xs md:text-sm mb-6 md:mb-8">
+      <section className="w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
+          <div style={{ ...monoLabel, marginBottom: '1.5rem' }}>
             {t('howItWorks.engagement.title')}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
-            <div className="wf-box p-5 md:p-6">
-              <h3 className="text-lg md:text-xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.engagement.item1.title')}
-              </h3>
-              <p className="wf-body text-sm italic">
-                {t('howItWorks.engagement.item1.description')}
-              </p>
-            </div>
-
-            <div className="wf-box p-5 md:p-6">
-              <h3 className="text-lg md:text-xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.engagement.item2.title')}
-              </h3>
-              <p className="wf-body text-sm italic">
-                {t('howItWorks.engagement.item2.description')}
-              </p>
-            </div>
-
-            <div className="wf-box p-5 md:p-6">
-              <h3 className="text-lg md:text-xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.engagement.item3.title')}
-              </h3>
-              <p className="wf-body text-sm italic">
-                {t('howItWorks.engagement.item3.description')}
-              </p>
-            </div>
-
-            <div className="wf-box p-5 md:p-6">
-              <h3 className="text-lg md:text-xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.engagement.item4.title')}
-              </h3>
-              <p className="wf-body text-sm italic">
-                {t('howItWorks.engagement.item4.description')}
-              </p>
-            </div>
-
-            <div className="wf-box p-5 md:p-6">
-              <h3 className="text-lg md:text-xl mb-2" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                {t('howItWorks.engagement.item5.title')}
-              </h3>
-              <p className="wf-body text-sm italic">
-                {t('howItWorks.engagement.item5.description')}
-              </p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="wf-box" style={{ padding: '1.5rem 1.5rem' }}>
+                <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.25rem, 1.4vw, 1.5rem)', lineHeight: '1.1', marginBottom: '0.5rem' }}>
+                  {t(`howItWorks.engagement.item${i}.title`)}
+                </h3>
+                <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(0.95rem, 1vw, 1.05rem)', lineHeight: '1.3', color: 'var(--ink-2)' }}>
+                  {t(`howItWorks.engagement.item${i}.description`)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* 6-week sprint timeline */}
-      <section className="w-full bg-paper-2 mt-24 md:mt-32 lg:mt-40">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-24 md:py-32 lg:py-40">
-          <div className="wf-mono text-xs md:text-sm mb-6 md:mb-8">
+      <section className="w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingBottom: '4rem' }}>
+          <div style={{ ...monoLabel, marginBottom: '1.5rem' }}>
             {t('howItWorks.sprint.title')}
           </div>
 
-          <div className="wf-box p-6 md:p-8">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-6 text-center border-b border-ink-3 pb-4 md:pb-6">
-              <div>
-                <div className="wf-mono text-xs md:text-sm mb-2">W1</div>
-                <h4 className="text-base md:text-lg lg:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  {t('howItWorks.sprint.w1')}
-                </h4>
-              </div>
-              <div>
-                <div className="wf-mono text-xs md:text-sm mb-2">W2</div>
-                <h4 className="text-base md:text-lg lg:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  {t('howItWorks.sprint.w2')}
-                </h4>
-              </div>
-              <div>
-                <div className="wf-mono text-xs md:text-sm mb-2">W3</div>
-                <h4 className="text-base md:text-lg lg:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  {t('howItWorks.sprint.w3')}
-                </h4>
-              </div>
-              <div>
-                <div className="wf-mono text-xs md:text-sm mb-2">W4</div>
-                <h4 className="text-base md:text-lg lg:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  {t('howItWorks.sprint.w4')}
-                </h4>
-              </div>
-              <div>
-                <div className="wf-mono text-xs md:text-sm mb-2">W5</div>
-                <h4 className="text-base md:text-lg lg:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  {t('howItWorks.sprint.w5')}
-                </h4>
-              </div>
-              <div>
-                <div className="wf-mono text-xs md:text-sm mb-2">W6</div>
-                <h4 className="text-base md:text-lg lg:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  {t('howItWorks.sprint.w6')}
-                </h4>
-              </div>
+          <div className="wf-box" style={{ padding: '2rem 2rem' }}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6" style={{ gap: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px dashed var(--ink-3)', marginBottom: '1.25rem' }}>
+              {['w1', 'w2', 'w3', 'w4', 'w5', 'w6'].map((wk, idx) => (
+                <div key={wk}>
+                  <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: '0.06em', fontSize: '0.8rem', color: 'var(--ink-2)', marginBottom: '0.25rem' }}>
+                    W{idx + 1}
+                  </div>
+                  <h4 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.125rem, 1.3vw, 1.375rem)', lineHeight: '1.1' }}>
+                    {t(`howItWorks.sprint.${wk}`)}
+                  </h4>
+                </div>
+              ))}
             </div>
-            <p className="wf-body text-sm md:text-base text-center italic">
+            <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1rem, 1.1vw, 1.125rem)', color: 'var(--ink-2)' }}>
               {t('howItWorks.sprint.footer')}
             </p>
           </div>
@@ -190,13 +114,13 @@ export default function HowItWorks() {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full mt-24 md:mt-32 lg:mt-40">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-24 md:py-32 lg:py-40">
-          <div className="bg-accent p-8 md:p-12 rounded-lg flex flex-col md:flex-row items-center justify-between gap-6">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl text-paper text-center md:text-left" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+      <section className="w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingBottom: '4rem' }}>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6" style={{ backgroundColor: 'var(--accent)', borderRadius: '8px', padding: '2rem 2.5rem', border: '2px solid var(--ink)' }}>
+            <h2 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', color: '#fff', lineHeight: '1.1' }}>
               {t('howItWorks.cta.title')}
             </h2>
-            <Link href="/contact" className="wf-btn bg-paper text-accent border-2 border-ink hover:bg-paper-2 text-lg md:text-xl px-8 py-4 whitespace-nowrap">
+            <Link href="/contact" className="wf-btn" style={{ backgroundColor: 'var(--paper)', color: 'var(--accent)', border: '2px solid var(--ink)', fontSize: 'clamp(1.125rem, 1.4vw, 1.5rem)', padding: '0.75rem 2rem', whiteSpace: 'nowrap' }}>
               {t('howItWorks.cta.button')}
             </Link>
           </div>

@@ -1,146 +1,340 @@
 'use client';
 
-import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+
+const SLOTS = ['09:00', '10:30', '13:00', '15:30', '17:00'];
+const CALL_LINK = 'https://meet.google.com/rentatechie-intro';
+const OUR_EMAIL = 'hello@rentatechie.com';
+
+function toLocalIso(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function getCurrentWeekDays() {
+  const now = new Date();
+  const day = now.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToMonday);
+  monday.setHours(0, 0, 0, 0);
+  const labels = ['MON', 'TUE', 'WED', 'THU', 'FRI'];
+  return labels.map((dow, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return { dow, date: d.getDate(), iso: toLocalIso(d), full: d };
+  });
+}
+
+function loadBookings(): Record<string, string[]> {
+  if (typeof window === 'undefined') return {};
+  try {
+    return JSON.parse(localStorage.getItem('rt_bookings') || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function saveBooking(iso: string, slot: string) {
+  const existing = loadBookings();
+  const list = existing[iso] || [];
+  if (!list.includes(slot)) list.push(slot);
+  existing[iso] = list;
+  localStorage.setItem('rt_bookings', JSON.stringify(existing));
+}
+
+function buildIcs({ iso, slot, name, email, idea }: { iso: string; slot: string; name: string; email: string; idea: string }) {
+  const [h, m] = slot.split(':').map(Number);
+  const start = new Date(iso + 'T00:00:00');
+  start.setHours(h, m, 0, 0);
+  const end = new Date(start);
+  end.setMinutes(end.getMinutes() + 30);
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const uid = `${Date.now()}-${name.replace(/\s/g, '')}@rentatechie.com`;
+  return [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Rent a Techie//Booking//EN',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${fmt(new Date())}`,
+    `DTSTART:${fmt(start)}`,
+    `DTEND:${fmt(end)}`,
+    'SUMMARY:Rent a Techie · 30-min founder fit call',
+    `DESCRIPTION:Idea: ${idea}\\nCall link: ${CALL_LINK}`,
+    `LOCATION:${CALL_LINK}`,
+    `ORGANIZER;CN=Rent a Techie:mailto:${OUR_EMAIL}`,
+    `ATTENDEE;CN=${name};RSVP=TRUE:mailto:${email}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+}
+
+function slotDateTime(iso: string, slot: string) {
+  const [h, m] = slot.split(':').map(Number);
+  const d = new Date(iso + 'T00:00:00');
+  d.setHours(h, m, 0, 0);
+  return d;
+}
 
 export default function Contact() {
   const { t } = useLanguage();
+  const week = useMemo(() => getCurrentWeekDays(), []);
+  const [now, setNow] = useState<Date>(() => new Date());
+
+  // Tick the clock every minute so days/slots auto-expire while the page is open
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const isSlotPast = (iso: string, slot: string) => slotDateTime(iso, slot) <= now;
+  const isDayFullyPast = (iso: string) => SLOTS.every((s) => isSlotPast(iso, s));
+
+  const [bookings, setBookings] = useState<Record<string, string[]>>({});
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [idea, setIdea] = useState('');
+  const [confirmed, setConfirmed] = useState<{ iso: string; slot: string } | null>(null);
+
+  // Pick first available (not past + not fully booked) day on load
+  const firstAvailableIdx = useMemo(() => {
+    const idx = week.findIndex((d) => !isDayFullyPast(d.iso));
+    return idx === -1 ? 0 : idx;
+  }, [week]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const [selectedDayIdx, setSelectedDayIdx] = useState(firstAvailableIdx);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+
+  useEffect(() => { setBookings(loadBookings()); }, []);
+
+  const selectedDay = week[selectedDayIdx];
+  const bookedForDay = bookings[selectedDay.iso] || [];
+  const dayFullyBooked = SLOTS.every((s) => bookedForDay.includes(s) || isSlotPast(selectedDay.iso, s));
+
+  const monoLabel: React.CSSProperties = {
+    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+    color: 'var(--ink-2)',
+  };
+  const monoSmall: React.CSSProperties = {
+    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    fontSize: 'clamp(0.75rem, 0.85vw, 0.9rem)',
+    color: 'var(--ink-2)',
+  };
+
+  const contactRows = [
+    { label: 'BOOK A CALL', value: 'rentatechie.com/intro', sub: '30-min founder fit call', href: '/contact' },
+    { label: 'EMAIL US', value: 'hello@rentatechie.com', sub: 'Pitch decks, founders, partners', href: 'mailto:hello@rentatechie.com' },
+    { label: 'VISIT', value: 'rentatechie.com', sub: 'Browse case studies', href: '/case-studies' },
+  ];
+
+  const handleConfirm = () => {
+    if (!selectedSlot) { alert('Please pick a time slot.'); return; }
+    if (!name.trim()) { alert('Please enter your name.'); return; }
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email.'); return; }
+    if (!idea.trim()) { alert('Please describe your idea in one line.'); return; }
+    if (bookedForDay.includes(selectedSlot)) { alert('That slot was just taken. Please pick another.'); return; }
+    if (isSlotPast(selectedDay.iso, selectedSlot)) { alert('That slot has already passed. Please pick a future one.'); return; }
+
+    saveBooking(selectedDay.iso, selectedSlot);
+    setBookings(loadBookings());
+
+    const ics = buildIcs({ iso: selectedDay.iso, slot: selectedSlot, name, email, idea });
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rent-a-techie-call.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    const dateLabel = selectedDay.full.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    const mailto = `mailto:${OUR_EMAIL}?cc=${encodeURIComponent(email)}&subject=${encodeURIComponent('Rent a Techie · 30-min founder fit call')}&body=${encodeURIComponent(
+      `Hi ${name},\n\nYour call is booked for ${dateLabel} at ${selectedSlot}.\n\nCall link: ${CALL_LINK}\n\nIdea: ${idea}\n\nWe'll see you then.\n— Rent a Techie`
+    )}`;
+    window.location.href = mailto;
+
+    setConfirmed({ iso: selectedDay.iso, slot: selectedSlot });
+  };
+
   return (
     <div className="flex flex-col w-full">
-      {/* Main Section */}
       <section className="w-full">
-        <div className="max-w-7xl mx-auto px-6 md:px-14 py-12 md:py-20 lg:py-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 md:items-stretch">
-            {/* Left Side - Content */}
-            <div className="flex flex-col">
-              <div className="wf-mono text-xs md:text-sm mb-4 md:mb-6">
-                {t('contact.pageTitle')}
-              </div>
+        <div className="max-w-7xl mx-auto px-6 md:px-14" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 md:mb-8" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
+            {/* LEFT */}
+            <div className="flex flex-col">
+              <div style={{ ...monoLabel, marginBottom: '1.5rem' }}>CONTACT</div>
+
+              <h1 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: '1.05', marginBottom: '1.25rem' }}>
                 {t('contact.hero.title')}
               </h1>
 
-              <p className="wf-body text-base md:text-lg lg:text-xl mb-8 md:mb-12">
+              <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(1.125rem, 1.3vw, 1.375rem)', lineHeight: '1.35', color: 'var(--ink-2)', maxWidth: '40rem', marginBottom: '2rem' }}>
                 {t('contact.hero.subtitle')}
               </p>
 
-              {/* Contact Options */}
-              <div className="flex flex-col gap-3 md:gap-4">
-                <div className="wf-box p-4 md:p-5 lg:p-6">
-                  <div className="flex items-center justify-between mb-2 md:mb-3">
-                    <div className="wf-mono text-xs md:text-sm">BOOK A CALL</div>
-                    <span className="text-accent">→</span>
-                  </div>
-                  <div className="wf-body text-sm md:text-base mb-1">
-                    <strong>rentatechie.com/intro</strong>
-                  </div>
-                  <div className="wf-body text-xs md:text-sm text-ink-3 italic">
-                    30-min founder fit call
-                  </div>
-                </div>
-
-                <div className="wf-box p-4 md:p-5 lg:p-6">
-                  <div className="flex items-center justify-between mb-2 md:mb-3">
-                    <div className="wf-mono text-xs md:text-sm">EMAIL US</div>
-                    <span className="text-accent">→</span>
-                  </div>
-                  <div className="wf-body text-sm md:text-base mb-1">
-                    <strong>hello@rentatechie.com</strong>
-                  </div>
-                  <div className="wf-body text-xs md:text-sm text-ink-3 italic">
-                    Pitch deck, founders, partners
-                  </div>
-                </div>
-
-                <div className="wf-box p-4 md:p-5 lg:p-6">
-                  <div className="flex items-center justify-between mb-2 md:mb-3">
-                    <div className="wf-mono text-xs md:text-sm">VISIT</div>
-                    <span className="text-accent">→</span>
-                  </div>
-                  <div className="wf-body text-sm md:text-base mb-1">
-                    <strong>rentatechie.com</strong>
-                  </div>
-                  <div className="wf-body text-xs md:text-sm text-ink-3 italic">
-                    Browse case studies
-                  </div>
-                </div>
+              <div className="flex flex-col" style={{ gap: '0.75rem' }}>
+                {contactRows.map((row) => (
+                  <a key={row.label} href={row.href} className="wf-box flex items-center justify-between" style={{ padding: '1.25rem 1.5rem', textDecoration: 'none', color: 'inherit', gap: '1.5rem' }}>
+                    <div style={{ ...monoSmall, flexShrink: 0, minWidth: '6rem' }}>{row.label}</div>
+                    <div className="flex-1">
+                      <div style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.125rem, 1.4vw, 1.375rem)', lineHeight: '1.15', marginBottom: '0.15rem' }}>{row.value}</div>
+                      <div style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', fontSize: 'clamp(0.95rem, 1vw, 1.0625rem)', color: 'var(--ink-2)' }}>{row.sub}</div>
+                    </div>
+                    <span style={{ color: 'var(--accent)', fontSize: '1.25rem', flexShrink: 0 }}>↗</span>
+                  </a>
+                ))}
               </div>
             </div>
 
-            {/* Right Side - Scheduling Widget */}
-            <div className="flex flex-col">
-              <div className="wf-box p-5 md:p-6 lg:p-8 relative flex-1 flex flex-col">
-                <div className="wf-mono text-xs md:text-sm mb-4 text-accent absolute top-3 md:top-4 right-4 md:right-6 italic transform rotate-2 hidden md:block">
-                  ~ we don't actually care if you embed
+            {/* RIGHT — scheduling widget */}
+            <div className="wf-box relative" style={{ padding: '1.75rem 1.75rem' }}>
+              <h3 style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.5rem, 1.9vw, 2rem)', lineHeight: '1.1', marginBottom: '1rem' }}>Pick a time</h3>
+
+              {/* Day pills */}
+              <div className="grid grid-cols-5" style={{ gap: '0.5rem', marginBottom: '1.25rem' }}>
+                {week.map((d, i) => {
+                  const dayBookings = bookings[d.iso] || [];
+                  const past = isDayFullyPast(d.iso);
+                  const fullyBooked = SLOTS.every((s) => dayBookings.includes(s) || isSlotPast(d.iso, s));
+                  const disabled = past || fullyBooked;
+                  const active = i === selectedDayIdx;
+                  return (
+                    <button
+                      key={d.iso}
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => { setSelectedDayIdx(i); setSelectedSlot(null); }}
+                      className="text-center"
+                      style={{
+                        border: '1.5px solid var(--ink)',
+                        borderRadius: '8px',
+                        padding: '0.6rem 0.25rem',
+                        backgroundColor: active ? 'var(--accent)' : disabled ? 'var(--paper-2)' : 'var(--paper)',
+                        color: active ? '#fff' : disabled ? 'var(--ink-3)' : 'var(--ink)',
+                        cursor: disabled ? 'not-allowed' : 'pointer',
+                        opacity: disabled ? 0.5 : 1,
+                        textDecoration: past ? 'line-through' : 'none',
+                      }}
+                    >
+                      <div style={{ ...monoSmall, fontSize: '0.7rem', color: 'inherit', marginBottom: '0.15rem' }}>{d.dow}</div>
+                      <div style={{ fontFamily: 'Caveat, cursive', fontWeight: 700, fontSize: 'clamp(1.125rem, 1.3vw, 1.375rem)', lineHeight: '1' }}>{d.date}</div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div style={{ borderTop: '1px dashed var(--ink-3)', paddingTop: '1rem', marginBottom: '1rem' }}>
+                <div style={{ ...monoSmall, marginBottom: '0.6rem' }}>
+                  AVAILABLE SLOTS · {selectedDay.dow} {selectedDay.date}
                 </div>
-
-                <div className="wf-mono text-xs md:text-sm mb-3 md:mb-4">
-                  SCHEDULING WIDGET · EMBED
-                </div>
-
-                <h3 className="text-2xl md:text-3xl mb-4 md:mb-6" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>
-                  Pick a time
-                </h3>
-
-                {/* Mock calendar widget */}
-                <div className="border-t border-ink-3 pt-4 md:pt-6 flex-1 flex flex-col justify-between">
-                  <div className="grid grid-cols-5 gap-1 md:gap-2 mb-6 md:mb-8">
-                    <div className="wf-box p-2 md:p-3 text-center">
-                      <div className="wf-mono text-xs mb-1">MON</div>
-                      <div className="text-lg md:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>12</div>
-                    </div>
-                    <div className="wf-box p-2 md:p-3 text-center">
-                      <div className="wf-mono text-xs mb-1">TUE</div>
-                      <div className="text-lg md:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>13</div>
-                    </div>
-                    <div className="wf-box p-2 md:p-3 text-center">
-                      <div className="wf-mono text-xs mb-1">WED</div>
-                      <div className="text-lg md:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>14</div>
-                    </div>
-                    <div className="wf-box p-2 md:p-3 text-center">
-                      <div className="wf-mono text-xs mb-1">THU</div>
-                      <div className="text-lg md:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>15</div>
-                    </div>
-                    <div className="wf-box p-2 md:p-3 text-center">
-                      <div className="wf-mono text-xs mb-1">FRI</div>
-                      <div className="text-lg md:text-xl" style={{ fontFamily: 'Caveat, cursive', fontWeight: 700 }}>16</div>
-                    </div>
+                {dayFullyBooked ? (
+                  <p style={{ fontFamily: 'Caveat, cursive', fontStyle: 'italic', color: 'var(--ink-2)' }}>
+                    Fully booked — please pick another day.
+                  </p>
+                ) : (
+                  <div className="flex flex-wrap" style={{ gap: '0.4rem' }}>
+                    {SLOTS.map((s) => {
+                      const booked = bookedForDay.includes(s);
+                      const past = isSlotPast(selectedDay.iso, s);
+                      const disabled = booked || past;
+                      const active = s === selectedSlot && !disabled;
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          disabled={disabled}
+                          onClick={() => setSelectedSlot(s)}
+                          style={{
+                            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                            fontSize: '0.85rem',
+                            padding: '0.35rem 0.75rem',
+                            border: '1.5px solid var(--ink)',
+                            borderRadius: '999px',
+                            backgroundColor: active ? 'var(--accent)' : disabled ? 'var(--paper-2)' : 'var(--paper)',
+                            color: active ? '#fff' : disabled ? 'var(--ink-3)' : 'var(--ink)',
+                            cursor: disabled ? 'not-allowed' : 'pointer',
+                            textDecoration: disabled ? 'line-through' : 'none',
+                            opacity: disabled ? 0.6 : 1,
+                          }}
+                        >
+                          {s}
+                        </button>
+                      );
+                    })}
                   </div>
+                )}
+              </div>
 
-                  <div className="border-t border-dotted border-ink-3 pt-4 md:pt-6 mb-6 md:mb-8">
-                    <div className="wf-mono text-xs mb-3 md:mb-4">AVAILABLE SLOTS · WED 14</div>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="wf-pill text-xs md:text-sm">09:00</span>
-                      <span className="wf-pill text-xs md:text-sm">10:30</span>
-                      <span className="wf-pill wf-pill-accent text-xs md:text-sm">13:00</span>
-                      <span className="wf-pill text-xs md:text-sm">15:30</span>
-                      <span className="wf-pill text-xs md:text-sm">17:00</span>
-                    </div>
-                  </div>
+              <div style={{ borderTop: '1px dashed var(--ink-3)', paddingTop: '1rem' }}>
+                <div style={{ ...monoSmall, marginBottom: '0.5rem' }}>YOUR NAME</div>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Maya Chen"
+                  style={{ width: '100%', padding: '0.75rem 1rem', border: '1.5px solid var(--ink)', borderRadius: '8px', backgroundColor: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: '1.125rem', color: 'var(--ink)', marginBottom: '1rem', outline: 'none' }}
+                />
 
-                  <div className="border-t border-dotted border-ink-3 pt-4 md:pt-6 mb-6 md:mb-8">
-                    <div className="wf-mono text-xs mb-3">YOUR NAME</div>
-                    <input
-                      type="text"
-                      placeholder="e.g. Maya Chen"
-                      className="w-full px-3 md:px-4 py-3 md:py-4 border-2 border-ink rounded-lg wf-body text-sm md:text-base bg-paper focus:outline-none focus:ring-2 focus:ring-accent mb-6 md:mb-8"
-                    />
+                <div style={{ ...monoSmall, marginBottom: '0.5rem' }}>EMAIL</div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="e.g. maya@yourstartup.com"
+                  style={{ width: '100%', padding: '0.75rem 1rem', border: '1.5px solid var(--ink)', borderRadius: '8px', backgroundColor: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: '1.125rem', color: 'var(--ink)', marginBottom: '1rem', outline: 'none' }}
+                />
 
-                    <div className="wf-mono text-xs mb-3">IDEA IN ONE LINE</div>
-                    <input
-                      type="text"
-                      placeholder="e.g. AI co-pilot for tax accountants in DACH"
-                      className="w-full px-3 md:px-4 py-3 md:py-4 border-2 border-ink rounded-lg wf-body text-sm md:text-base bg-paper focus:outline-none focus:ring-2 focus:ring-accent"
-                    />
-                  </div>
+                <div style={{ ...monoSmall, marginBottom: '0.5rem' }}>IDEA IN ONE LINE</div>
+                <textarea
+                  value={idea}
+                  onChange={(e) => setIdea(e.target.value)}
+                  placeholder="e.g. AI co-pilot for tax accountants in DACH"
+                  rows={3}
+                  style={{ width: '100%', padding: '0.75rem 1rem', border: '1.5px solid var(--ink)', borderRadius: '8px', backgroundColor: 'var(--paper)', fontFamily: 'Caveat, cursive', fontSize: '1.125rem', color: 'var(--ink)', marginBottom: '1.25rem', outline: 'none', resize: 'vertical' }}
+                />
 
-                  <button className="w-full bg-accent text-paper px-4 md:px-6 py-3 md:py-4 rounded-lg wf-body text-sm md:text-base font-bold hover:opacity-90 mt-auto">
-                    Confirm Wed · 13:00 →
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={handleConfirm}
+                  disabled={!selectedSlot || dayFullyBooked}
+                  className="w-full"
+                  style={{
+                    backgroundColor: !selectedSlot || dayFullyBooked ? 'var(--ink-3)' : 'var(--accent)',
+                    color: '#fff',
+                    border: '2px solid var(--ink)',
+                    borderRadius: '999px',
+                    padding: '0.85rem 1.5rem',
+                    fontFamily: 'Caveat, cursive',
+                    fontWeight: 700,
+                    fontSize: 'clamp(1.125rem, 1.4vw, 1.5rem)',
+                    cursor: !selectedSlot || dayFullyBooked ? 'not-allowed' : 'pointer',
+                    boxShadow: '3px 3px 0 var(--ink)',
+                  }}
+                >
+                  Confirm {selectedDay.dow} {selectedDay.date} · {selectedSlot || '—:—'} →
+                </button>
+
+                {confirmed && (
+                  <p style={{ marginTop: '1rem', fontFamily: 'Caveat, cursive', fontStyle: 'italic', color: 'var(--accent)' }}>
+                    Booked! Calendar invite downloaded. Check your email to confirm.
+                  </p>
+                )}
               </div>
             </div>
+
           </div>
         </div>
       </section>

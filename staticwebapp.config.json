@@ -1,25 +1,13 @@
 {
-  "routes": [
-    {
-      "route": "/*",
-      "serve": "/index.html",
-      "statusCode": 200
-    }
-  ],
   "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/images/*", "/favicon.ico", "/*.png", "/*.jpg", "/*.jpeg", "/*.gif", "/*.svg"]
+    "rewrite": "/404.html",
+    "exclude": ["/_next/*", "/images/*", "/favicon.ico", "/*.png", "/*.jpg", "/*.jpeg", "/*.gif", "/*.svg"]
   },
   "mimeTypes": {
-    ".json": "application/json"
+    ".json": "application/json",
+    ".html": "text/html"
   },
   "globalHeaders": {
-    "cache-control": "public, max-age=31536000, immutable"
-  },
-  "responseOverrides": {
-    "404": {
-      "rewrite": "/index.html",
-      "statusCode": 200
-    }
+    "cache-control": "public, max-age=3600"
   }
 }

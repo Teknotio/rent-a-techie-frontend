@@ -38,20 +38,20 @@ jobs:
       - name: Check for Azure deploy token
         id: token_check
         env:
-          TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_HILL_0B6636210 }}
         run: |
           if [ -n "$TOKEN" ]; then
             echo "has_token=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_token=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::AZURE_STATIC_WEB_APPS_API_TOKEN secret is not set — skipping deploy. Add the secret in repo Settings → Secrets and variables → Actions to enable deployment."
+            echo "::warning::AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_HILL_0B6636210 secret is not set — skipping deploy. Add the secret in repo Settings → Secrets and variables → Actions to enable deployment."
           fi
 
       - name: Deploy to Azure Static Web Apps
         if: steps.token_check.outputs.has_token == 'true'
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_HILL_0B6636210 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/"
@@ -67,7 +67,7 @@ jobs:
       - name: Check for Azure deploy token
         id: token_check
         env:
-          TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_HILL_0B6636210 }}
         run: |
           if [ -n "$TOKEN" ]; then echo "has_token=true" >> "$GITHUB_OUTPUT"; else echo "has_token=false" >> "$GITHUB_OUTPUT"; fi
 
@@ -75,5 +75,5 @@ jobs:
         if: steps.token_check.outputs.has_token == 'true'
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_HILL_0B6636210 }}
           action: "close"

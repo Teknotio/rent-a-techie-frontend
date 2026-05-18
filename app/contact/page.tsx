@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const SLOTS = ['09:00', '10:30', '13:00', '15:30', '17:00'];
@@ -29,10 +29,13 @@ function getCurrentWeekDays() {
   });
 }
 
+const BOOKINGS_KEY = 'rt_bookings';
+const BOOKINGS_EVENT = 'rt_bookings_update';
+
 function loadBookings(): Record<string, string[]> {
   if (typeof window === 'undefined') return {};
   try {
-    return JSON.parse(localStorage.getItem('rt_bookings') || '{}');
+    return JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '{}');
   } catch {
     return {};
   }
@@ -43,8 +46,26 @@ function saveBooking(iso: string, slot: string) {
   const list = existing[iso] || [];
   if (!list.includes(slot)) list.push(slot);
   existing[iso] = list;
-  localStorage.setItem('rt_bookings', JSON.stringify(existing));
+  localStorage.setItem(BOOKINGS_KEY, JSON.stringify(existing));
+  window.dispatchEvent(new Event(BOOKINGS_EVENT));
 }
+
+function subscribeBookings(cb: () => void) {
+  const handler = (e: StorageEvent | Event) => {
+    if (e instanceof StorageEvent && e.key !== BOOKINGS_KEY) return;
+    cb();
+  };
+  window.addEventListener('storage', handler);
+  window.addEventListener(BOOKINGS_EVENT, handler);
+  return () => {
+    window.removeEventListener('storage', handler);
+    window.removeEventListener(BOOKINGS_EVENT, handler);
+  };
+}
+
+const getBookingsSnapshot = () =>
+  typeof window === 'undefined' ? '{}' : localStorage.getItem(BOOKINGS_KEY) || '{}';
+const getServerSnapshot = () => '{}';
 
 function buildIcs({ iso, slot, name, email, idea }: { iso: string; slot: string; name: string; email: string; idea: string }) {
   const [h, m] = slot.split(':').map(Number);
@@ -94,7 +115,11 @@ export default function Contact() {
   const isSlotPast = (iso: string, slot: string) => slotDateTime(iso, slot) <= now;
   const isDayFullyPast = (iso: string) => SLOTS.every((s) => isSlotPast(iso, s));
 
-  const [bookings, setBookings] = useState<Record<string, string[]>>({});
+  const bookingsJson = useSyncExternalStore(subscribeBookings, getBookingsSnapshot, getServerSnapshot);
+  const bookings = useMemo<Record<string, string[]>>(() => {
+    try { return JSON.parse(bookingsJson); } catch { return {}; }
+  }, [bookingsJson]);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [idea, setIdea] = useState('');
@@ -108,8 +133,6 @@ export default function Contact() {
 
   const [selectedDayIdx, setSelectedDayIdx] = useState(firstAvailableIdx);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-
-  useEffect(() => { setBookings(loadBookings()); }, []);
 
   const selectedDay = week[selectedDayIdx];
   const bookedForDay = bookings[selectedDay.iso] || [];
@@ -136,7 +159,9 @@ export default function Contact() {
     { label: 'VISIT', value: 'rentatechie.com', sub: 'Browse case studies', href: '/case-studies' },
   ];
 
-  const handleConfirm = () => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleConfirm = async () => {
     if (!selectedSlot) { alert('Please pick a time slot.'); return; }
     if (!name.trim()) { alert('Please enter your name.'); return; }
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email.'); return; }
@@ -144,8 +169,26 @@ export default function Contact() {
     if (bookedForDay.includes(selectedSlot)) { alert('That slot was just taken. Please pick another.'); return; }
     if (isSlotPast(selectedDay.iso, selectedSlot)) { alert('That slot has already passed. Please pick a future one.'); return; }
 
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ iso: selectedDay.iso, slot: selectedSlot, name, email, idea }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data?.error || 'Could not save your booking. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+    } catch {
+      alert('Network error. Please check your connection and try again.');
+      setSubmitting(false);
+      return;
+    }
+
     saveBooking(selectedDay.iso, selectedSlot);
-    setBookings(loadBookings());
 
     const ics = buildIcs({ iso: selectedDay.iso, slot: selectedSlot, name, email, idea });
     const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
@@ -165,6 +208,7 @@ export default function Contact() {
     window.location.href = mailto;
 
     setConfirmed({ iso: selectedDay.iso, slot: selectedSlot });
+    setSubmitting(false);
   };
 
   return (
@@ -309,10 +353,10 @@ export default function Contact() {
                 <button
                   type="button"
                   onClick={handleConfirm}
-                  disabled={!selectedSlot || dayFullyBooked}
+                  disabled={!selectedSlot || dayFullyBooked || submitting}
                   className="w-full"
                   style={{
-                    backgroundColor: !selectedSlot || dayFullyBooked ? 'var(--ink-3)' : 'var(--accent)',
+                    backgroundColor: !selectedSlot || dayFullyBooked || submitting ? 'var(--ink-3)' : 'var(--accent)',
                     color: '#fff',
                     border: '2px solid var(--ink)',
                     borderRadius: '999px',
@@ -320,11 +364,11 @@ export default function Contact() {
                     fontFamily: 'Caveat, cursive',
                     fontWeight: 700,
                     fontSize: 'clamp(1.125rem, 1.4vw, 1.5rem)',
-                    cursor: !selectedSlot || dayFullyBooked ? 'not-allowed' : 'pointer',
+                    cursor: !selectedSlot || dayFullyBooked || submitting ? 'not-allowed' : 'pointer',
                     boxShadow: '3px 3px 0 var(--ink)',
                   }}
                 >
-                  Confirm {selectedDay.dow} {selectedDay.date} · {selectedSlot || '—:—'} →
+                  {submitting ? 'Booking...' : `Confirm ${selectedDay.dow} ${selectedDay.date} · ${selectedSlot || '—:—'} →`}
                 </button>
 
                 {confirmed && (

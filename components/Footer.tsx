@@ -23,7 +23,7 @@ export default function Footer() {
               {t('footer.legal.privacy')}
             </Link>
             <Link href="/terms" className="text-ink-2 no-underline hover:text-accent transition-colors">
-              {t('footer.legal.terms')}
+              Terms and Conditions
             </Link>
             <a
               href="mailto:hello@rentatechie.com"
